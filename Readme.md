@@ -21,7 +21,7 @@ Installation
 
 bash
 Copy code
-git clone https://github.com/your/repository.git
+git clone https://github.com/WISDOM-WOKE22/my-cli
 
 2.  Navigate into the project directory:
 
@@ -46,7 +46,7 @@ Usage
 
     `test-cli create-model <modelName>`
 
-    Replace `<modelName>` with the desired name of the model.
+    Replace `<modelName>` with the desired name of the model. This command creates a nodel folder with a JSON and a TYPESCRIPT file for model structure and validation
 
 -   Start Server: Use the following command to start the server:
 
@@ -60,7 +60,7 @@ Usage
 
     `test-cli add-data <modelName>`
 
-    Replace `<modelName>` with the name of the model to which you want to add data.
+    Replace `<modelName>` with the name of the model to which you want to add data. on carrying out this command migration occur and an sqlite database is created to store the data been inputed. Also a table is created in the database with a strict naming convention of `tab<modelName>` exmaple `tabUsers` for a table whoes model is `User` S
 
 ### Hooks System
 
