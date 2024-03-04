@@ -7,8 +7,6 @@ async function connectToDatabase() {
             storage: "./db.sqlite",
         });
 
-        // db.getDatabaseName
-
         await db.authenticate();
         console.log("Database connection has been established successfully.");
 

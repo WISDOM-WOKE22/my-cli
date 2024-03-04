@@ -2,12 +2,11 @@ const connectToDatabase = require("../../utils/database");
 
 async function tableExists(db, tableName) {
   try {
-    // Get all table names from Sequelize's metadata
     const tableNames = await db.getQueryInterface().showAllTables();
-    return tableNames.includes(`tab${tableName}`);
+    return tableNames.includes(`tab${tableName}s`);
   } catch (error) {
     console.error("Error checking table existence:", error);
-    return false; // Return false in case of error
+    return false;
   }
 }
 
@@ -15,12 +14,10 @@ exports.getData = async (req, res) => {
   try {
     const { modelName, fields, filters } = req.query;
 
-    // Validate required parameters
     if (!modelName) {
       throw new Error("Model name is required");
     }
 
-    // Check if the table exists in the database
     const db = await connectToDatabase();
     const exists = await tableExists(db, modelName);
     if (!exists) {
@@ -30,15 +27,12 @@ exports.getData = async (req, res) => {
       });
     }
 
-    // Construct the base query
-    let query = `SELECT ${Array.isArray(fields) ? fields.join(", ") : "*"} FROM tab${modelName}`;
+    let query = `SELECT ${Array.isArray(fields) ? fields.join(", ") : "*"} FROM tab${modelName}s`;
 
-    // Checking if filter parameters are provided
     if (filters) {
       const filterObject = JSON.parse(filters);
       const conditions = [];
 
-      // Loop through each filter
       for (const [key, [operator, value]] of Object.entries(filterObject)) {
         switch (operator) {
           case "==":
@@ -47,22 +41,18 @@ exports.getData = async (req, res) => {
           case ">=":
             conditions.push(`${key} >= '${value}'`);
             break;
-          // Add more cases for other operators as needed
           default:
-            // By default, assume equality
             conditions.push(`${key} = '${value}'`);
         }
       }
 
-      // Adding WHERE clause if conditions are provided
       if (conditions.length > 0) {
         query += ` WHERE ${conditions.join(" AND ")}`;
       }
     }
 
-    // Execute the raw SQL query
     const results = await db.query(query, {
-      type: db.QueryTypes.SELECT, // Specify the type of query (SELECT, INSERT, UPDATE, DELETE)
+      type: db.QueryTypes.SELECT, 
     });
 
     res.status(200).json({ results });
