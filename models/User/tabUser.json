@@ -1,7 +1,0 @@
-
-            {
-              "fields": [
-                { "firstName": "string", "LastName": "string","type": "string", "required": true },
-              ]
-            }
-          
